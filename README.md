@@ -24,7 +24,7 @@ git clone git@github.com:cescobedo/moodle-auth_dev.git auth/dev
 Download way
 - Download the zip from <https://github.com/cescobedo/moodle-auth_dev/archive/master.zip>
 - Unzip it into  auth/ folder in your Moodle,
-- Rename the new folder "moodle-auth_dev" to "dev"
+- Rename the new folder "moodle-auth_dev-master" to "dev"
 - Enjoy!!!
 
 FUTURE SCOPE:
