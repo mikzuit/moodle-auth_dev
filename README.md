@@ -6,7 +6,7 @@ Information
 
 This plugin allow a user not logout when this user has loginas. 
 It's useful to developers and main administrators.
-
+You have to enable in authentication settings to work it.
 
 Version
 -------
