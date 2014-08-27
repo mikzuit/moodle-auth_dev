@@ -28,3 +28,4 @@ $plugin->version   = 2014051200;
 $plugin->requires  = 2013111800;
 $plugin->component = 'auth_dev';
 $plugin->maturity = MATURITY_STABLE;
+$plugin->release = '1.0';
