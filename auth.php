@@ -50,16 +50,20 @@ class auth_plugin_dev extends auth_plugin_base {
     }
 
     public function prelogout_hook() {
-        global $CFG, $SESSION;
+        global $CFG, $SESSION, $USER;
 
         if (\core\session\manager::is_loggedinas()) {
             $id = optional_param('id', 0, PARAM_INT);
             // IF ID==0 then logout request, notthing to do.
             if ($id) {
                 $realuser = \core\session\manager::get_realuser();
-                complete_user_login($realuser);
-                $SESSION->wantsurl = "$CFG->wwwroot/course/view.php?id=".$id;
-                redirect($SESSION->wantsurl);
+                // Check is siteadmin. 
+                // Only siteadmins can use this tool.
+                if (is_siteadmin($realuser)) {
+                    complete_user_login($realuser);
+                    $SESSION->wantsurl = "$CFG->wwwroot/course/view.php?id=".$id;
+                    redirect($SESSION->wantsurl);
+                }
             }
         }
     }
