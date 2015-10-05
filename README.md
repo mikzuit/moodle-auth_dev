@@ -13,9 +13,11 @@ This plugin must be enable in:
 
 And enable "Auth Development tools"  to use it.
 
+Add Redirect to specific URL when user logout.
+
 Version
 -------
-Moodle 2.7+ and 2.6+.
+Moodle 2.9, 2.8 and 2.7 and 2.6.
 
 TO INSTALL:
 
@@ -34,7 +36,6 @@ Download way
 
 FUTURE SCOPE:
 - ADD useful actions to developer like not create user in ldap_plugin when user not exist.
-- Redirect to specific URL when user logout.
 
 Author
 ------

@@ -49,6 +49,53 @@ class auth_plugin_dev extends auth_plugin_base {
         $this->config = get_config(self::COMPONENT_NAME);
     }
 
+    /**
+     * Prints a form for configuring this authentication plugin.
+     *
+     * This function is called from admin/auth.php, and outputs a full page with
+     * a form for configuring this plugin.
+     *
+     * @param array $config An object containing all the data for this page.
+     * @param string $error
+     * @param array $user_fields
+     * @return void
+     */
+    function config_form($config, $err, $user_fields) {
+        global $CFG;
+        
+        if (!isset($config->enablelogouturl)) {
+            $config->enablelogouturl = 'off';
+        }
+        if (!isset($config->logouturl)) {
+            $config->logouturl = '';
+        }
+        
+        include 'config.html';
+    }
+
+    /**
+     * Processes and stores configuration data for this authentication plugin.
+     *
+     * @param stdClass $config
+     * @return void
+     */
+    function process_config($config) {
+        // Set to defaults if undefined.
+        if (!isset($config->enablelogouturl)) {
+            $config->enablelogouturl = 'off';
+        }
+        if (!isset($config->logouturl)) {
+            $config->logouturl = '';
+        }
+
+        // Save settings.
+        set_config('enablelogouturl', $config->enablelogouturl, self::COMPONENT_NAME);
+        set_config('logouturl', $config->logouturl, self::COMPONENT_NAME);
+
+        return true;
+    }
+
+
     public function prelogout_hook() {
         global $CFG, $SESSION, $USER;
 
@@ -62,10 +109,31 @@ class auth_plugin_dev extends auth_plugin_base {
                 if (is_siteadmin($realuser)) {
                     complete_user_login($realuser);
                     $SESSION->wantsurl = "$CFG->wwwroot/course/view.php?id=".$id;
-                    redirect($SESSION->wantsurl);
+                    // Logout Redirection.
+                    if (!empty($this->config->logouturl)) {
+                        redirect($this->config->logouturl);
+                    } else {
+                        redirect($SESSION->wantsurl);
+                    }   
                 }
             }
-        }
+        } 
+    }
+
+    /**
+     * Hook for overriding behaviour of logout page.
+     * This method is called from login/logout.php page for all enabled auth plugins.
+     *
+     * @global string
+     */
+    function logoutpage_hook() {
+        global $redirect; // can be used to override redirect after logout
+       
+        if (isset($this->config->enablelogouturl) and $this->config->enablelogouturl == 'on') {
+            if (!empty($this->config->logouturl)) {
+                $redirect = $this->config->logouturl;
+            }
+        }     
     }
 }
 

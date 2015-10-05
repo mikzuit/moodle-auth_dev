@@ -24,3 +24,7 @@
 
 $string['auth_devdescription'] = 'This tool is only to development purpouses in order to help Developers and Main admins.';
 $string['pluginname'] = 'Auth Development tools';
+$string['config_logouturl'] = 'Logout url redirection';
+$string['config_enablelogouturl'] = 'Enable Logout url redirection';
+$string['config_enablelogouturl_description'] = 'If this option is enabled ANY user will be redirected when logout.
+If not, only ADMIN will be redirected when logout.';

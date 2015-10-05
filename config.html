@@ -1,0 +1,20 @@
+<table cellspacing="0" cellpadding="5" border="0">
+  <tr valign="top">
+    <td align="right"><?php print_string("config_enablelogouturl", "auth_dev") ?>:</td>
+    <td>
+        <input name="enablelogouturl" type="checkbox" <?php
+        if ( isset($config->enablelogouturl) and $config->enablelogouturl == 'on' ){
+                echo 'checked="checked"';
+            }
+        ?> />
+    </td>
+    <td><?php print_string("config_enablelogouturl_description", "auth_dev") ?></td>
+  </tr>
+  <tr valign="top">
+    <td align="right"><label for="url">
+      <?php print_string('config_logouturl', 'auth_dev') ?>
+    </label></td>
+    <td><input size="70" id="url" name="logouturl" value="<?php echo $config->logouturl ?>"/></td>
+  </tr>
+  
+</table>
