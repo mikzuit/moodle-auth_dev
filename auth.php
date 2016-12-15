@@ -99,14 +99,16 @@ class auth_plugin_dev extends auth_plugin_base {
     public function prelogout_hook() {
         global $CFG, $SESSION, $USER;
 
+        // Only when is_loggedinass function of session_manager is true
         if (\core\session\manager::is_loggedinas()) {
+            // Get Optional parameter (id) and realuser
             $id = optional_param('id', 0, PARAM_INT);
-            // IF ID==0 then logout request, notthing to do.
-            if ($id) {
-                $realuser = \core\session\manager::get_realuser();
-                // Check is siteadmin. 
-                // Only siteadmins can use this tool.
-                if (is_siteadmin($realuser)) {
+            $realuser = \core\session\manager::get_realuser();
+            
+            // IF ID==0 then regular logout request, notthing to do AND
+            // IF realuser is_siteadmin OR is_loggedinass function of \core\session\manager return true
+            // Set in one line to ovoid many NESTED blocks
+            if ($id && ( is_siteadmin($realuser) || \core\session\manager::is_loggedinas() ) ) {
                     complete_user_login($realuser);
                     $SESSION->wantsurl = "$CFG->wwwroot/course/view.php?id=".$id;
                     // Logout Redirection.
@@ -114,8 +116,7 @@ class auth_plugin_dev extends auth_plugin_base {
                         redirect($this->config->logouturl);
                     } else {
                         redirect($SESSION->wantsurl);
-                    }   
-                }
+                    }
             }
         } 
     }
